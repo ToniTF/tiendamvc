@@ -59,5 +59,19 @@ class CustomerController extends Controller{
             }
         }
     }
+    public function deleteCustomer(...$params) {
+        if (isset($params[0])) {
+            $customer = Customer::find($params[0]);
+            if ($customer) {
+                // Eliminar direcciones asociadas
+                $customer->addresses()->delete();
+                // Eliminar teléfonos asociados
+                $customer->phones()->delete();
+                // Eliminar el cliente
+                $customer->delete();
+            }
+        }
+        header("Location: " . base_url() . "customer");
+    }
 }
 ?>

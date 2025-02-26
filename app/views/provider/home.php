@@ -19,7 +19,7 @@
                 <span class="navbar-text">
                     Listado Proveedores
                 </span>
-                <a href="<?=base_url()?>provider/newProvider" class="btn btn-primary">Nuevo Proveedor</a>
+                <a href="<?= base_url() ?>provider/newProvider" class="btn btn-primary">Nuevo Proveedor</a>
             </div>
         </nav>
         <table class="table table-dark table-striped">
@@ -37,8 +37,10 @@
                         <td><?= $provider->name ?></td>
                         <td>
                             <i class="fa-solid fa-user-pen"></i>
-                            <i class="fa-solid fa-trash"></i>
-                            <a href="<?= base_url()?>provider/show/<?= $provider->provider_id ?>">
+                            <a href="<?= base_url() ?>provider/deleteProvider/<?= $provider->provider_id ?>">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                            <a href="<?= base_url() ?>provider/show/<?= $provider->provider_id ?>">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                         </td>
