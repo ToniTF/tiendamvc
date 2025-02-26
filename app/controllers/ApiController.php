@@ -19,5 +19,12 @@ class ApiController extends Controller {
         echo $json;
         exit();
     }
+    public function providers() {
+        $provider = Provider::all();
+        $json=json_encode($provider);
+        header('Content-Type: application/json');
+        echo $json;
+        exit();
+    }
 }
 ?>
