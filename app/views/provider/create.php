@@ -11,8 +11,17 @@
 
 <body>
     <div class="container">
-        <h1>Nuevo Proveedor</h1>
-        <form action="<?=base_url()?>provider/storeNewProvider" method="post">
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <h1 class="navbar-text">
+                    Nuevo Proveedor
+                </h1>
+                <a href="<?= base_url() ?>provider" class="btn btn-primary">Listado Proveedores</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+            </div>
+        </nav>
+
+        <form action="<?= base_url() ?>provider/storeNewProvider" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="name" name="name" required>

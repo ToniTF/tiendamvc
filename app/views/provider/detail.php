@@ -17,9 +17,12 @@
     <div class="container">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <span class="navbar-text">
+                <h1 class="navbar-text">
                     Detalle Proveedor
-                </span>
+                </h1>
+                <a href="<?= base_url() ?>provider/newProvider" class="btn btn-primary">Nuevo Proveedor</a>
+                <a href="<?= base_url() ?>provider" class="btn btn-primary">Listado Proveedores</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
             </div>
         </nav>
         <div class="accordion" id="accordionExample">
@@ -110,17 +113,17 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Web</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
-                               
-                                    <tr>
-                                        <th scope="row"><?= $provider->provider_id ?></th>
-                                        <td><?= $provider->web ?></td>
-                                        
-                                    </tr>
-                                
+
+                                <tr>
+                                    <th scope="row"><?= $provider->provider_id ?></th>
+                                    <td><?= $provider->web ?></td>
+
+                                </tr>
+
                             </tbody>
                         </table>
 

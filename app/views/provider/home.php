@@ -16,18 +16,19 @@
     <div class="container">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <span class="navbar-text">
+                <h1 class="navbar-text">
                     Listado Proveedores
-                </span>
+                </h1>
                 <a href="<?= base_url() ?>provider/newProvider" class="btn btn-primary">Nuevo Proveedor</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
             </div>
         </nav>
         <table class="table table-dark table-striped">
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Operations</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Operaciones</th>
                 </tr>
             </thead>
             <tbody>

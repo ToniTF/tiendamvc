@@ -10,24 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 
 <body>
     <div class="container">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <span class="navbar-text">
-                    Detalle Cliente
-                </span>
+                <h1 class="navbar-text">
+                    Detalle clientes
+                </h1>
+                <a href="<?= base_url() ?>customer/newCustomer" class="btn btn-primary">Nuevo Cliente</a>
+                <a href="<?= base_url() ?>customer" class="btn btn-primary">Listado Clientes</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
             </div>
         </nav>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                  <?= $data->name ?>
+                    <?= $data->name ?>
                 </h2>
-               
+
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -38,31 +41,31 @@
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                    <table class="table table-dark table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Street</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Zip</th>
-                    <th scope="col">Country</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <?php
-                        foreach ($data->addresses as $key => $address) {?>
-                        <tr>
-                            <th scope="row"><?=$address->address_id?></th>
-                            <td><?=$address->street?></td>
-                            <td><?=$address->city?></td>
-                            <td><?=$address->zip_code?></td>
-                            <td><?=$address->country?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                    </table>
-                       
-                    
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Street</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Zip</th>
+                                    <th scope="col">Country</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($data->addresses as $key => $address) { ?>
+                                    <tr>
+                                        <th scope="row"><?= $address->address_id ?></th>
+                                        <td><?= $address->street ?></td>
+                                        <td><?= $address->city ?></td>
+                                        <td><?= $address->zip_code ?></td>
+                                        <td><?= $address->country ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+
+
                     </div>
                 </div>
             </div>
@@ -75,24 +78,24 @@
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                    <table class="table table-dark table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Phone</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <?php
-                        foreach ($data->phones as $key => $phone) {?>
-                        <tr>
-                            <th scope="row"><?=$phone->phone_id?></th>
-                            <td><?=$phone->number?></td>
-                           
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                    </table>
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($data->phones as $key => $phone) { ?>
+                                    <tr>
+                                        <th scope="row"><?= $phone->phone_id ?></th>
+                                        <td><?= $phone->number ?></td>
+
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

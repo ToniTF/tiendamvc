@@ -10,5 +10,7 @@
     <a href="<?=base_url()?>login">Login</a>
     <br>
     <a href="<?=base_url()?>customer">Ver Clientes</a>
+    <a href="<?=base_url()?>provider">Ver Proveedores</a>
+    <a href="<?=base_url()?>product">Ver Productos</a>
 </body>
 </html>

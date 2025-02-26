@@ -11,8 +11,16 @@
 
 <body>
     <div class="container">
-        <h1>Nuevo Cliente</h1>
-        <form action="<?=base_url()?>customer/storeNewCustomer" method="post">
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <h1 class="navbar-text">
+                    Nuevo Cliente
+                </h1>
+                <a href="<?= base_url() ?>customer" class="btn btn-primary">Listado Clientes</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+            </div>
+        </nav>
+        <form action="<?= base_url() ?>customer/storeNewCustomer" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="name" name="name" required>

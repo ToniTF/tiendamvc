@@ -16,8 +16,14 @@
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-light bg-light">
-            <span class="navbar-brand mb-0 h1">New Product</span>
+    <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <h1 class="navbar-text">
+                    Listado Productos
+                </h1>
+                <a href="<?= base_url() ?>product/newProduct" class="btn btn-primary">Nuevo Producto</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+            </div>
         </nav>
         <form id="form">
             <div class="form-row">

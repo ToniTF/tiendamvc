@@ -16,10 +16,11 @@
     <div class="container">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <span class="navbar-text">
+                <h1 class="navbar-text">
                     Listado clientes
-                </span>
+                </h1>
                 <a href="<?= base_url() ?>customer/newCustomer" class="btn btn-primary">Nuevo Cliente</a>
+                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
             </div>
         </nav>
         <table class="table table-dark table-striped">
