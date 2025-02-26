@@ -12,5 +12,6 @@
     <a href="<?=base_url()?>customer">Ver Clientes</a>
     <a href="<?=base_url()?>provider">Ver Proveedores</a>
     <a href="<?=base_url()?>product">Ver Productos</a>
+    <a href="<?=base_url()?>category">Ver Categorias</a>
 </body>
 </html>
