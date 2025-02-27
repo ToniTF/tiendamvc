@@ -19,7 +19,7 @@
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
                 <h1 class="navbar-text">
-                    Listado Productos
+                    Productos
                 </h1>
                 <a href="<?= base_url() ?>product/newProduct" class="btn btn-primary">Nuevo Producto</a>
                 <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
