@@ -39,7 +39,6 @@ class ApiController extends Controller{
         //$products=Product::all();
         //quiero devolver los productos y su categoria y proveedor
         $products = Product::with(['category', 'provider'])->get();
-
        
         $json=json_encode($products);
         header('Content-Type: application/json');

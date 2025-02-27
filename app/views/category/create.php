@@ -16,8 +16,10 @@
                 <h1 class="navbar-text">
                     Nueva Categoria
                 </h1>
-                <a href="<?= base_url() ?>category" class="btn btn-primary">Listado Categorias</a>
-                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                <div class="d-flex">
+                    <a href="<?= base_url() ?>category" class="btn btn-primary me-2">Listado Categorias</a>
+                    <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                </div>
             </div>
         </nav>
 
@@ -30,7 +32,7 @@
                 <label for="description" class="form-label">Descripción</label>
                 <input type="text" class="form-control" id="description" name="description" required>
             </div>
-           
+
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>
     </div>

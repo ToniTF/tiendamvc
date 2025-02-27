@@ -19,8 +19,10 @@
                 <h1 class="navbar-text">
                     Listado clientes
                 </h1>
-                <a href="<?= base_url() ?>customer/newCustomer" class="btn btn-primary">Nuevo Cliente</a>
-                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                <div class="d-flex">
+                    <a href="<?= base_url() ?>customer/newCustomer" class="btn btn-primary me-2">Nuevo Cliente</a>
+                    <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                </div>
             </div>
         </nav>
         <table class="table table-dark table-striped">

@@ -16,8 +16,10 @@
                 <h1 class="navbar-text">
                     Nuevo Cliente
                 </h1>
-                <a href="<?= base_url() ?>customer" class="btn btn-primary">Listado Clientes</a>
-                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                <div class="d-flex">
+                    <a href="<?= base_url() ?>customer" class="btn btn-primary me-2">Listado Clientes</a>
+                    <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                </div>
             </div>
         </nav>
         <form action="<?= base_url() ?>customer/storeNewCustomer" method="post">

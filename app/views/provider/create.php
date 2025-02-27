@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Cliente</title>
+    <title>Nuevo Proveedor</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -16,8 +16,10 @@
                 <h1 class="navbar-text">
                     Nuevo Proveedor
                 </h1>
-                <a href="<?= base_url() ?>provider" class="btn btn-primary">Listado Proveedores</a>
-                <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                <div class="d-flex">
+                    <a href="<?= base_url() ?>provider" class="btn btn-primary me-2">Listado Proveedores</a>
+                    <a href="<?= base_url() ?>admin/home" class="btn btn-primary">Inicio</a>
+                </div>
             </div>
         </nav>
 
