@@ -46,10 +46,37 @@ document.getElementById("form").onsubmit = function (e) {
     })
     .then(data => data.json())
     .then(datos => {
-        if(datos.status==200){
-            alert("Producto registrado correctamente");
-        }else{
-            alert("Error al registrar el producto");
-        }
+        showproducts(datos);
     })
+}
+
+
+function showproducts(datos){   
+    let tbody = document.getElementById("products");
+    tbody.innerHTML = "";
+    datos.forEach(element => {
+        let tr = document.createElement("tr");
+        let td = document.createElement("td");
+        td.textContent = element.product_id;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = element.name;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = element.description;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = element.category.name;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = element.provider.name;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = element.stock;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = element.price;
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+    });
 }
