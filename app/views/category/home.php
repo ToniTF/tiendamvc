@@ -41,11 +41,12 @@
                         <td><?= $category->name ?></td>
                         <td><?= $category->description ?></td>
                         <td>
-                            <i class="fa-solid fa-user-pen"></i>
+                            <a href="<?= base_url() ?>category/editCategory/<?= $category->category_id ?>">
+                                <i class="fa-solid fa-user-pen"></i>
+                            </a>
                             <a href="<?= base_url() ?>category/deleteCategory/<?= $category->category_id ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?')">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
-                           
                         </td>
                     </tr>
                 <?php } ?>

@@ -1,10 +1,13 @@
+<?php
+// filepath: /c:/xampp/htdocs/tiendamvc/app/views/customer/home.php
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer</title>
+    <title>Clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -39,11 +42,15 @@
                         <th scope="row"><?= $customer->customer_id ?></th>
                         <td><?= $customer->name ?></td>
                         <td>
-                            <i class="fa-solid fa-user-pen"></i>
-                            <a href="<?= base_url() ?>customer/deleteCustomer/<?= $customer->customer_id ?>">
+                            <a href="<?= base_url() ?>customer/editCustomer/<?= $customer->customer_id ?>">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="<?= base_url() ?>customer/deleteCustomer/<?= $customer->customer_id ?>" onclick="return confirm('¿Está seguro de que desea eliminar este cliente?')">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
-                            <a href="<?= base_url() ?>customer/show/<?= $customer->customer_id ?>"><i class="fa-solid fa-eye"></i></a>
+                            <a href="<?= base_url() ?>customer/show/<?= $customer->customer_id ?>">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
                         </td>
                     </tr>
                 <?php } ?>

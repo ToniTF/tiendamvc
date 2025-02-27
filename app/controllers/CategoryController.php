@@ -6,7 +6,7 @@ use Formacom\Models\Category;
 class CategoryController extends Controller {
     public function index(...$params) {
         $categories = Category::all();
-        $this->view('home', ['categories' => $categories]); // Asegúrate de que la vista home esté en la carpeta category
+        $this->view('/home', ['categories' => $categories]);
     }
 
     public function show(...$params) {
@@ -21,7 +21,7 @@ class CategoryController extends Controller {
     }
 
     public function newCategory() {
-        $this->view("create"); // Asegúrate de que la vista create esté en la carpeta category
+        $this->view('/create');
     }
 
     public function storeNewCategory() {
@@ -42,11 +42,43 @@ class CategoryController extends Controller {
         }
     }
 
+    public function editCategory(...$params) {
+        if (isset($params[0])) {
+            $category = Category::find($params[0]);
+            if ($category) {
+                $this->view('/edit', ['category' => $category]);
+                exit();
+            }
+        }
+        header("Location: " . base_url() . "category");
+    }
+
+    public function updateCategory(...$params) {
+        if (isset($params[0]) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $category = Category::find($params[0]);
+            if ($category) {
+                $name = $_POST['name'] ?? null;
+                $description = $_POST['description'] ?? null;
+
+                if ($name && $description) {
+                    $category->name = $name;
+                    $category->description = $description;
+                    $category->save();
+                    
+                    header("Location: " . base_url() . "category");
+                    exit();
+                } else {
+                    echo "Por favor, complete todos los campos.";
+                }
+            }
+        }
+        header("Location: " . base_url() . "category");
+    }
+
     public function deleteCategory(...$params) {
         if (isset($params[0])) {
             $category = Category::find($params[0]);
             if ($category) {
-                // Eliminar la categoría
                 $category->delete();
             }
         }
