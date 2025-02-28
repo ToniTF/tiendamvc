@@ -245,7 +245,7 @@ function deleteProduct(productId) {
         })
         .catch(error => {
             console.error("Error al eliminar producto:", error);
-            showMessage('Error al eliminar el producto', 'danger');
+            showMessage('El producto está asociado a pedidos y no se puede eliminar', 'danger');
         });
     }
 }
