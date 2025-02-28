@@ -53,6 +53,7 @@
 </head>
 <body>
     <div class="container-fluid dashboard-container">
+          
         <div class="row welcome-header">
             <div class="col-12">
                 <h1 class="text-center mb-4"><?php echo $data['mensaje'] ?></h1>
@@ -99,6 +100,13 @@
                 <a href="<?=base_url()?>order" class="btn btn-secondary btn-dashboard w-100">
                     <i class="fas fa-shopping-cart"></i>
                     Pedidos
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
+                <a href="<?=base_url()?>login/logout" class="btn btn-dark btn-dashboard w-100">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
                 </a>
             </div>
         </div>
