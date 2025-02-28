@@ -106,6 +106,57 @@ class ApiController extends Controller{
         echo $json;
         exit();
     }
-   
+    
+    /**
+     * Actualiza un producto existente
+     */
+    public function updateproduct(...$params) {
+        if (!isset($params[0])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID de producto no especificado']);
+            exit();
+        }
+        
+        $productId = $params[0];
+        $product = Product::find($productId);
+        
+        if (!$product) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);
+            exit();
+        }
+        
+        // Leer el contenido JSON enviado
+        $jsonData = file_get_contents('php://input');
+        // Decodificar el JSON
+        $data = json_decode($jsonData, true);
+        
+        // Verificar si se pudo decodificar correctamente
+        if ($data === null) {
+            http_response_code(400); // Bad Request
+            echo json_encode(['success' => false, 'message' => 'JSON inválido']);
+            exit();
+        }
+        
+        try {
+            // Actualizar el producto
+            $product->name = $data['name'];
+            $product->description = $data['description'];
+            $product->category_id = $data['category_id'];
+            $product->provider_id = $data['provider_id'];
+            $product->stock = $data['stock'];
+            $product->price = $data['price'];
+            $product->save();
+            
+            // Enviar respuesta
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'Producto actualizado correctamente']);
+        } catch (\Exception $e) {
+            // En caso de error, devolver mensaje de error
+            http_response_code(500); // Internal Server Error
+            echo json_encode(['success' => false, 'message' => 'Error al actualizar: ' . $e->getMessage()]);
+        }
+        exit();
+    }
 }
 ?>

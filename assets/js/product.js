@@ -222,7 +222,7 @@ function showproducts(datos) {
 // Función para editar un producto
 function editProduct(productId) {
     console.log(`Editando producto ${productId}`);
-    window.location.href = `http://localhost/tiendamvc/product/edit/${productId}`;
+    window.location.href = `${window.location.origin}/tiendamvc/product/edit/${productId}`;
 }
 
 // Función para eliminar un producto
