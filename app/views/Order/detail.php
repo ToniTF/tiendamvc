@@ -117,26 +117,22 @@
                                 <div class="col-md-6">
                                     <p><strong>Nombre:</strong> <?= $order->customer->name ?></p>
                                     
-                                    <?php if (!empty($order->customer->dni)): ?>
-                                    <p><strong>DNI/NIF:</strong> <?= $order->customer->dni ?></p>
-                                    <?php endif; ?>
-                                    
-                                    <?php if (!empty($order->customer->phone)): ?>
-                                    <p><strong>Teléfono:</strong> <?= $order->customer->phone ?></p>
+                                    <?php if ($order->customer->phones && count($order->customer->phones) > 0): ?>
+                                    <p><strong>Teléfono:</strong> <?= $order->customer->phones[0]->number ?></p>
                                     <?php endif; ?>
                                 </div>
                                 
                                 <div class="col-md-6">
-                                    <?php if (!empty($order->customer->address)): ?>
-                                    <p><strong>Dirección:</strong> <?= $order->customer->address ?></p>
+                                    <?php if ($order->customer->addresses && count($order->customer->addresses) > 0): ?>
+                                    <p><strong>Dirección:</strong> <?= $order->customer->addresses[0]->street ?></p>
+                                    
+                                    <?php if (!empty($order->customer->addresses[0]->city)): ?>
+                                    <p><strong>Ciudad:</strong> <?= $order->customer->addresses[0]->city ?></p>
                                     <?php endif; ?>
                                     
-                                    <?php if (!empty($order->customer->city)): ?>
-                                    <p><strong>Ciudad:</strong> <?= $order->customer->city ?></p>
+                                    <?php if (!empty($order->customer->addresses[0]->zip_code)): ?>
+                                    <p><strong>Código Postal:</strong> <?= $order->customer->addresses[0]->zip_code ?></p>
                                     <?php endif; ?>
-                                    
-                                    <?php if (!empty($order->customer->postal_code)): ?>
-                                    <p><strong>Código Postal:</strong><?= $order->customer->postal_code ?></p>
                                     <?php endif; ?>
                                 </div>
                             </div>
