@@ -61,6 +61,7 @@
         </div>
         
         <div class="row">
+            <!-- Primera fila -->
             <div class="col-md-6 col-lg-3 col-dashboard">
                 <a href="<?=base_url()?>login" class="btn btn-primary btn-dashboard w-100">
                     <i class="fas fa-sign-in-alt"></i>
@@ -69,20 +70,28 @@
             </div>
             
             <div class="col-md-6 col-lg-3 col-dashboard">
-                <a href="<?=base_url()?>customer" class="btn btn-success btn-dashboard w-100">
-                    <i class="fas fa-users"></i>
-                    Clientes
+                <a href=" <?=base_url()?>login/register" class="btn btn-purple btn-dashboard w-100" style="background-color: #6f42c1; color: white;">
+                    <i class="fas fa-user-plus"></i>
+                    Nuevo Usuario
                 </a>
             </div>
             
             <div class="col-md-6 col-lg-3 col-dashboard">
-                <a href="<?=base_url()?>provider" class="btn btn-warning btn-dashboard w-100">
-                    <i class="fas fa-truck"></i>
-                    Proveedores
+                <a href="<?=base_url()?>login/logout" class="btn btn-dark btn-dashboard w-100">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
                 </a>
             </div>
             
             <div class="col-md-6 col-lg-3 col-dashboard">
+                <a href="<?=base_url()?>category" class="btn btn-info btn-dashboard w-100">
+                    <i class="fas fa-tags"></i>
+                    Categorías
+                </a>
+            </div>
+            
+            <!-- Segunda fila -->
+            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
                 <a href="<?=base_url()?>product" class="btn btn-danger btn-dashboard w-100">
                     <i class="fas fa-box-open"></i>
                     Productos
@@ -90,9 +99,16 @@
             </div>
             
             <div class="col-md-6 col-lg-3 col-dashboard mt-4">
-                <a href="<?=base_url()?>category" class="btn btn-info btn-dashboard w-100">
-                    <i class="fas fa-tags"></i>
-                    Categorías
+                <a href="<?=base_url()?>provider" class="btn btn-warning btn-dashboard w-100">
+                    <i class="fas fa-truck"></i>
+                    Proveedores
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
+                <a href="<?=base_url()?>customer" class="btn btn-success btn-dashboard w-100">
+                    <i class="fas fa-users"></i>
+                    Clientes
                 </a>
             </div>
             
@@ -100,20 +116,6 @@
                 <a href="<?=base_url()?>order" class="btn btn-secondary btn-dashboard w-100">
                     <i class="fas fa-shopping-cart"></i>
                     Pedidos
-                </a>
-            </div>
-            
-            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
-                <a href="<?=base_url()?>user/create" class="btn btn-purple btn-dashboard w-100" style="background-color: #6f42c1; color: white;">
-                    <i class="fas fa-user-plus"></i>
-                    Nuevo Usuario
-                </a>
-            </div>
-            
-            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
-                <a href="<?=base_url()?>login/logout" class="btn btn-dark btn-dashboard w-100">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Cerrar Sesión
                 </a>
             </div>
         </div>
