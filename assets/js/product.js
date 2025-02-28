@@ -152,13 +152,23 @@ function showproducts(datos) {
     let tbody = document.getElementById("products");
     tbody.innerHTML = "";
     
+    // Actualizar el contador de productos
+    const countElement = document.getElementById("product-count");
+    if (countElement) {
+        const count = datos && datos.length ? datos.length : 0;
+        countElement.textContent = `${count} producto${count !== 1 ? 's' : ''}`;
+        console.log(`Actualizando contador a: ${count} productos`);
+    } else {
+        console.warn("Elemento contador de productos no encontrado");
+    }
+    
     if (!datos || datos.length === 0) {
         // Mostrar mensaje si no hay productos
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         td.colSpan = 8; // Actualizado para incluir la columna de acciones
         td.textContent = "No hay productos disponibles";
-        td.className = "text-center";
+        td.className = "text-center p-3";
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;

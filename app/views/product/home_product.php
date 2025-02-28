@@ -13,6 +13,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Estilo para la tabla con scroll */
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+        
+        .table-container table {
+            width: 100%;
+            min-width: 800px; /* Asegura que la tabla tenga un ancho mínimo */
+        }
+        
+        /* Mantiene fijo el encabezado mientras se hace scroll */
+        .table-container thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            z-index: 1;
+        }
+        
+        /* Mejora la visualización en pantallas pequeñas */
+        @media (max-width: 768px) {
+            .table-container {
+                max-height: 400px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -77,12 +105,13 @@
             </div>
         </div>
         
-        <div class="card">
-            <div class="card-header bg-dark text-white">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">Listado de Productos</h5>
+                <span class="badge bg-primary" id="product-count">0 productos</span>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-container">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -109,21 +138,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
         crossorigin="anonymous"></script>
-    <script>
-        // Script para depurar la carga
-        console.log('DOM cargado. Intentando cargar products.js...');
-    </script>
     <script src="<?= base_url() ?>assets/js/product.js"></script>
     <script>
-        // Para depurar si se cargó el script
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM completamente cargado');
-            // Si la función loadProducts existe, llamarla manualmente
             if (typeof loadProducts === 'function') {
-                console.log('Llamando a loadProducts()...');
                 loadProducts();
             } else {
-                console.error('La función loadProducts no está disponible. Verificar product.js');
+                console.error('La función loadProducts no está disponible.');
             }
         });
     </script>
