@@ -1,5 +1,5 @@
 <?php
-// filepath: /c:/xampp/htdocs/tiendamvc/app/views/order/create.php
+// filepath: /c:/xampp/htdocs/tiendamvc/app/views/Order/create.php
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -122,6 +122,17 @@
     </div>
 
     <script>
+        // Almacenar todos los productos disponibles para usarlos después
+        const allProducts = [
+            <?php foreach ($products as $product): ?> {
+                id: <?= $product->product_id ?>, 
+                name: "<?= $product->name ?>", 
+                price: <?= $product->price ?>,
+                display: "<?= $product->name ?> - €<?= number_format($product->price, 2) ?>"
+            },
+            <?php endforeach; ?>
+        ];
+        
         let productRowCount = 1;
         
         function addProductRow() {
@@ -129,7 +140,8 @@
             const newRow = container.querySelector('.product-row').cloneNode(true);
             
             // Resetear valores
-            newRow.querySelector('.product-select').value = '';
+            const newSelect = newRow.querySelector('.product-select');
+            newSelect.value = '';
             newRow.querySelector('.quantity-input').value = '1';
             newRow.querySelector('.price-input').value = '0.00';
             newRow.querySelector('.subtotal-input').value = '0.00';
@@ -143,6 +155,9 @@
             // Incrementar contador
             productRowCount++;
             
+            // Actualizar las opciones disponibles en todos los selectores
+            updateAvailableProducts();
+            
             // Recalcular total
             calculateTotal();
         }
@@ -151,6 +166,7 @@
             const row = button.closest('.product-row');
             if (document.querySelectorAll('.product-row').length > 1) {
                 row.remove();
+                updateAvailableProducts();
                 calculateTotal();
             }
         }
@@ -163,6 +179,9 @@
             
             priceInput.value = parseFloat(price).toFixed(2);
             calculateSubtotal(priceInput);
+            
+            // Actualizar las opciones disponibles en los demás selectores
+            updateAvailableProducts();
         }
         
         function calculateSubtotal(input) {
@@ -192,11 +211,55 @@
             document.getElementById('order-total').textContent = '€' + total.toFixed(2);
         }
         
+        // Función para actualizar las opciones disponibles en todos los selectores
+        function updateAvailableProducts() {
+            // Obtener todos los productos seleccionados actualmente
+            const selects = document.querySelectorAll('.product-select');
+            const selectedProducts = Array.from(selects).map(select => select.value).filter(value => value !== '');
+            
+            // Actualizar cada selector con las opciones disponibles
+            selects.forEach(function(select) {
+                const currentValue = select.value;
+                
+                // Guardar las opciones actuales antes de limpiar
+                const currentOptions = Array.from(select.options).map(option => ({
+                    value: option.value,
+                    text: option.text,
+                    price: option.getAttribute('data-price')
+                }));
+                
+                // Limpiar el selector
+                select.innerHTML = '';
+                
+                // Agregar la opción por defecto
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Seleccione un producto';
+                select.appendChild(defaultOption);
+                
+                // Filtrar y añadir opciones disponibles
+                allProducts.forEach(function(product) {
+                    // Solo añadir si no está seleccionado o es el valor actual de este selector
+                    if (!selectedProducts.includes(product.id.toString()) || product.id.toString() === currentValue) {
+                        const option = document.createElement('option');
+                        option.value = product.id;
+                        option.textContent = product.display;
+                        option.setAttribute('data-price', product.price);
+                        select.appendChild(option);
+                    }
+                });
+                
+                // Restaurar el valor seleccionado anteriormente
+                select.value = currentValue;
+            });
+        }
+        
         // Inicializar cálculos
         document.getElementById('discount').addEventListener('input', calculateTotal);
         
         // Iniciar con una fila de producto
         document.addEventListener('DOMContentLoaded', function() {
+            updateAvailableProducts();
             const productSelects = document.querySelectorAll('.product-select');
             productSelects.forEach(function(select) {
                 select.dispatchEvent(new Event('change'));
