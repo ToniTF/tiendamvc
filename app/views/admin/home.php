@@ -94,6 +94,13 @@
                     Categorías
                 </a>
             </div>
+            
+            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
+                <a href="<?=base_url()?>order" class="btn btn-secondary btn-dashboard w-100">
+                    <i class="fas fa-shopping-cart"></i>
+                    Pedidos
+                </a>
+            </div>
         </div>
     </div>
     
