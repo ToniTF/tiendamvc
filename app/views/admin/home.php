@@ -104,6 +104,13 @@
             </div>
             
             <div class="col-md-6 col-lg-3 col-dashboard mt-4">
+                <a href="<?=base_url()?>user/create" class="btn btn-purple btn-dashboard w-100" style="background-color: #6f42c1; color: white;">
+                    <i class="fas fa-user-plus"></i>
+                    Nuevo Usuario
+                </a>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 col-dashboard mt-4">
                 <a href="<?=base_url()?>login/logout" class="btn btn-dark btn-dashboard w-100">
                     <i class="fas fa-sign-out-alt"></i>
                     Cerrar Sesión
