@@ -41,3 +41,46 @@ $(document).ready(function() {
         ]
     });
 });
+$(document).ready(function() {
+    $('#providers_table').DataTable({
+        language: {
+            "sProcessing":   "Procesando...",
+            "sLengthMenu":   "Mostrar _MENU_ proveedores",
+            "sZeroRecords":  "No se encontraron proveedores",
+            "sEmptyTable":   "Ningún proveedor disponible",
+            "sInfo":         "Mostrando proveedores del _START_ al _END_ de un total de _TOTAL_",
+            "sInfoEmpty":    "Mostrando proveedores del 0 al 0 de un total de 0",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ proveedores)",
+            "sInfoPostFix":  "",
+            "sSearch":       "Buscar:",
+            "sUrl":          "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de forma ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de forma descendente"
+            }
+        },
+        // Otras opciones de configuración que utilices
+        columnDefs: [
+            {
+                targets: [0],
+                orderData: [0, 1]
+            },
+            {
+                targets: [0, 1],
+                searchable: true
+            },
+            {
+                targets: [2],
+                searchable: false
+            }
+        ]
+    });
+});
