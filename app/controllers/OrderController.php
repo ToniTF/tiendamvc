@@ -69,7 +69,7 @@ class OrderController extends Controller
                     $order->discount = $discount;
                     $order->save();
                     
-                    // Asociar productos a la orden
+                    // Asociar productos a la orden y reducir stock
                     for ($i = 0; $i < count($products); $i++) {
                         if (isset($products[$i]) && isset($quantities[$i]) && isset($prices[$i])) {
                             $product_id = $products[$i];
@@ -77,13 +77,26 @@ class OrderController extends Controller
                             $price = $prices[$i];
                             
                             if ($product_id && $quantity > 0 && $price > 0) {
-                                // Usar attach para asociar cada producto con su cantidad y precio
-                                $order->products()->attach($product_id, [
-                                    'quantity' => $quantity,
-                                    'price' => $price,
-                                    'created_at' => date('Y-m-d H:i:s'),
-                                    'updated_at' => date('Y-m-d H:i:s')
-                                ]);
+                                // Obtener el producto para actualizar su stock
+                                $product = Product::find($product_id);
+                                if ($product) {
+                                    // Verificar si hay suficiente stock
+                                    if ($product->stock < $quantity) {
+                                        throw new \Exception("Stock insuficiente para el producto: " . $product->name);
+                                    }
+                                    
+                                    // Reducir stock
+                                    $product->stock -= $quantity;
+                                    $product->save();
+                                    
+                                    // Usar attach para asociar cada producto con su cantidad y precio
+                                    $order->products()->attach($product_id, [
+                                        'quantity' => $quantity,
+                                        'price' => $price,
+                                        'created_at' => date('Y-m-d H:i:s'),
+                                        'updated_at' => date('Y-m-d H:i:s')
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -131,6 +144,13 @@ class OrderController extends Controller
                     // Iniciar transacción
                     DB::beginTransaction();
                     
+                    // Restaurar el stock de los productos actuales antes de la actualización
+                    $currentProducts = $order->products;
+                    foreach ($currentProducts as $currentProduct) {
+                        $currentProduct->stock += $currentProduct->pivot->quantity;
+                        $currentProduct->save();
+                    }
+                    
                     // Actualizar datos de la orden
                     $order->customer_id = $_POST['customer_id'] ?? $order->customer_id;
                     $order->date = $_POST['date'] ?? $order->date;
@@ -140,7 +160,7 @@ class OrderController extends Controller
                     // Eliminar productos existentes
                     $order->products()->detach();
                     
-                    // Re-asociar productos
+                    // Re-asociar productos y reducir stock
                     $products = $_POST['products'] ?? [];
                     $quantities = $_POST['quantities'] ?? [];
                     $prices = $_POST['prices'] ?? [];
@@ -152,12 +172,25 @@ class OrderController extends Controller
                             $price = $prices[$i];
                             
                             if ($product_id && $quantity > 0 && $price > 0) {
-                                $order->products()->attach($product_id, [
-                                    'quantity' => $quantity,
-                                    'price' => $price,
-                                    'created_at' => date('Y-m-d H:i:s'),
-                                    'updated_at' => date('Y-m-d H:i:s')
-                                ]);
+                                // Obtener el producto para actualizar su stock
+                                $product = Product::find($product_id);
+                                if ($product) {
+                                    // Verificar si hay suficiente stock
+                                    if ($product->stock < $quantity) {
+                                        throw new \Exception("Stock insuficiente para el producto: " . $product->name);
+                                    }
+                                    
+                                    // Reducir stock
+                                    $product->stock -= $quantity;
+                                    $product->save();
+                                    
+                                    $order->products()->attach($product_id, [
+                                        'quantity' => $quantity,
+                                        'price' => $price,
+                                        'created_at' => date('Y-m-d H:i:s'),
+                                        'updated_at' => date('Y-m-d H:i:s')
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -180,15 +213,29 @@ class OrderController extends Controller
     public function deleteOrder(...$params)
     {
         if (isset($params[0])) {
-            $order = Order::find($params[0]);
+            $order = Order::with('products')->find($params[0]);
             if ($order) {
                 try {
-                    // La relación se eliminará automáticamente si has configurado ON DELETE CASCADE en la base de datos
-                    // De lo contrario, necesitas eliminar manualmente los registros relacionados:
-                    // $order->products()->detach();
+                    // Iniciar transacción
+                    DB::beginTransaction();
                     
+                    // Restaurar el stock de los productos
+                    foreach ($order->products as $product) {
+                        $product->stock += $product->pivot->quantity;
+                        $product->save();
+                    }
+                    
+                    // Eliminar la relación con productos
+                    $order->products()->detach();
+                    
+                    // Eliminar la orden
                     $order->delete();
+                    
+                    // Confirmar transacción
+                    DB::commit();
                 } catch (\Exception $e) {
+                    // Revertir transacción en caso de error
+                    DB::rollBack();
                     echo "Error al eliminar la orden: " . $e->getMessage();
                 }
             }
