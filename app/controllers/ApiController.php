@@ -53,6 +53,9 @@ class ApiController extends Controller{
         }
         
         try {
+            // Registrar los datos recibidos para depuración
+            error_log("Datos recibidos en newproduct: " . print_r($data, true));
+            
             // Crear y guardar el nuevo producto
             $product = new Product();
             $product->name = $data['name'];
@@ -61,6 +64,8 @@ class ApiController extends Controller{
             $product->provider_id = $data['provider_id'];
             $product->stock = $data['stock'];
             $product->price = $data['price'];
+            $product->cost = $data['cost'] ?? 0; // Añadido campo cost
+            $product->vat_type = $data['vat_type'] ?? 21; // Añadido campo vat_type
             $product->save();
             
             // Devolver todos los productos actualizados con sus relaciones
@@ -71,6 +76,7 @@ class ApiController extends Controller{
             echo json_encode($products);
         } catch (\Exception $e) {
             // En caso de error, devolver mensaje de error
+            error_log("Error en newproduct: " . $e->getMessage());
             http_response_code(500); // Internal Server Error
             echo json_encode(['success' => false, 'message' => 'Error al guardar: ' . $e->getMessage()]);
         }
@@ -87,7 +93,15 @@ class ApiController extends Controller{
             
             if ($product) {
                 $product->delete();
-                $response = ['success' => true, 'message' => 'Producto eliminado correctamente'];
+                
+                // Devolver todos los productos actualizados
+                $products = Product::with(['category', 'provider'])->get();
+                
+                $response = [
+                    'success' => true, 
+                    'message' => 'Producto eliminado correctamente',
+                    'products' => $products
+                ];
             } else {
                 $response = ['success' => false, 'message' => 'Producto no encontrado'];
             }
@@ -146,13 +160,23 @@ class ApiController extends Controller{
             $product->provider_id = $data['provider_id'];
             $product->stock = $data['stock'];
             $product->price = $data['price'];
+            $product->cost = $data['cost'] ?? $product->cost; // Añadido campo cost
+            $product->vat_type = $data['vat_type'] ?? $product->vat_type; // Añadido campo vat_type
             $product->save();
+            
+            // Obtener todos los productos actualizados
+            $products = Product::with(['category', 'provider'])->get();
             
             // Enviar respuesta
             header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'message' => 'Producto actualizado correctamente']);
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Producto actualizado correctamente',
+                'products' => $products
+            ]);
         } catch (\Exception $e) {
             // En caso de error, devolver mensaje de error
+            error_log("Error en updateproduct: " . $e->getMessage());
             http_response_code(500); // Internal Server Error
             echo json_encode(['success' => false, 'message' => 'Error al actualizar: ' . $e->getMessage()]);
         }

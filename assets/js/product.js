@@ -41,10 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Función para cargar productos
 function loadProducts() {
-    console.log('Ejecutando loadProducts()...');
-    fetch("http://localhost/tiendamvc/api/products")
+    fetch(`${window.location.origin}/tiendamvc/api/products`)
         .then(response => {
-            console.log('Respuesta recibida:', response);
             if (!response.ok) {
                 throw new Error(`Error HTTP! status: ${response.status}`);
             }
@@ -56,6 +54,11 @@ function loadProducts() {
         })
         .catch(err => {
             console.error("Error al cargar productos:", err);
+            // Mostrar mensaje de error en la interfaz
+            const tbody = document.getElementById("products");
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Error al cargar los productos: ${err.message}</td></tr>`;
+            }
         });
 }
 
@@ -70,8 +73,8 @@ document.getElementById("form").onsubmit = function (e) {
     const provider_id = document.getElementById("provider").value;
     const stock = document.getElementById("stock").value;
     const price = document.getElementById("price").value;
-    const cost = document.getElementById("cost").value;  // Asegúrate de capturar este valor
-    const vat_type = document.getElementById("vat_type").value;  // Asegúrate de capturar este valor
+    const cost = document.getElementById("cost").value;  // Campo de coste
+    const vat_type = document.getElementById("vat_type").value;  // Campo de IVA
     
     // Crear el objeto con todos los datos
     let product = {
@@ -81,11 +84,11 @@ document.getElementById("form").onsubmit = function (e) {
         'provider_id': provider_id,
         'stock': stock,
         'price': price,
-        'cost': cost,  // Asegúrate de incluir este campo
-        'vat_type': vat_type  // Asegúrate de incluir este campo
+        'cost': cost,  // Incluir el coste
+        'vat_type': vat_type  // Incluir el tipo de IVA
     };
     
-    console.log('Enviando producto:', product);  // Verifica en la consola que cost está presente
+    console.log('Enviando producto:', product);
     
     // Validar los datos antes de enviar
     if (!validateProductData(product)) {
@@ -108,16 +111,27 @@ document.getElementById("form").onsubmit = function (e) {
     })
     .then(data => {
         console.log('Respuesta del servidor:', data);
-        if (data.error) {
-            throw new Error(data.error);
+        // Verificar si la respuesta tiene el formato esperado
+        if (Array.isArray(data)) {
+            // Si es un array, asumimos que son productos
+            showproducts(data);
+            document.getElementById("form").reset();
+            showMessage('Producto guardado correctamente', 'success');
+        } else if (data.success === false) {
+            // Si hay un mensaje de error
+            throw new Error(data.message || 'Error desconocido');
+        } else if (data.products && Array.isArray(data.products)) {
+            // Si los productos están en data.products
+            showproducts(data.products);
+            document.getElementById("form").reset();
+            showMessage('Producto guardado correctamente', 'success');
+        } else {
+            throw new Error('Formato de respuesta inesperado');
         }
-        // Actualizar la tabla y limpiar el formulario
-        showproducts(data);
-        document.getElementById("form").reset();
     })
     .catch(error => {
         console.error("Error:", error);
-        alert(`Error al guardar el producto: ${error.message}`);
+        showMessage(`Error al guardar el producto: ${error.message}`, 'danger');
     });
 };
 
@@ -288,30 +302,40 @@ function editProduct(productId) {
 
 // Función para eliminar un producto con confirmación
 function deleteProduct(productId) {
-    console.log('Solicitando eliminar producto con ID:', productId);
-    
-    if (confirm('¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.')) {
-        fetch(`http://localhost/tiendamvc/api/deleteproduct/${productId}`, {
-            method: 'DELETE'
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error HTTP! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Producto eliminado:', data);
-            // Recargar la lista de productos
-            loadProducts();
-            // Mostrar mensaje de éxito
-            showMessage('Producto eliminado correctamente', 'success');
-        })
-        .catch(error => {
-            console.error('Error al eliminar el producto:', error);
-            showMessage('Error al eliminar el producto', 'danger');
-        });
+    if (!confirm('¿Estás seguro de eliminar este producto?')) {
+        return;
     }
+    
+    fetch(`${window.location.origin}/tiendamvc/api/deleteproduct/${productId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error HTTP! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+        
+        if (data.success === true) {
+            showMessage('Producto eliminado correctamente', 'success');
+            
+            // Verificar dónde están los productos en la respuesta
+            if (data.products && Array.isArray(data.products)) {
+                showproducts(data.products);
+            } else {
+                // Si no hay productos en la respuesta, recargar todos
+                loadProducts();
+            }
+        } else {
+            throw new Error(data.message || 'Error al eliminar el producto');
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        showMessage(`Error al eliminar el producto: ${error.message}`, 'danger');
+    });
 }
 
 // Función para calcular el margen de beneficio
