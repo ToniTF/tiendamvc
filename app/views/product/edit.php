@@ -74,15 +74,73 @@
                     </div>
                     
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label for="stock" class="form-label">Stock</label>
                             <input type="number" min="0" class="form-control" id="stock" value="<?= $product->stock ?>" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label for="cost" class="form-label">Coste</label>
+                            <div class="input-group">
+                                <span class="input-group-text">€</span>
+                                <input type="number" min="0" step="0.01" class="form-control" id="cost" value="<?= $product->cost ?? '0.00' ?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="vat_type" class="form-label">Tipo de IVA</label>
+                            <select id="vat_type" class="form-select" required>
+                                <option value="0" <?= ($product->vat_type ?? 21) == 0 ? 'selected' : '' ?>>0%</option>
+                                <option value="4" <?= ($product->vat_type ?? 21) == 4 ? 'selected' : '' ?>>4%</option>
+                                <option value="10" <?= ($product->vat_type ?? 21) == 10 ? 'selected' : '' ?>>10%</option>
+                                <option value="21" <?= ($product->vat_type ?? 21) == 21 ? 'selected' : '' ?>>21%</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label for="price" class="form-label">Precio</label>
                             <div class="input-group">
                                 <span class="input-group-text">€</span>
                                 <input type="number" min="0" step="0.01" class="form-control" id="price" value="<?= $product->price ?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Panel de información de márgenes (opcional) -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title">Información de márgenes</h6>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p class="mb-1">Precio sin IVA: <span id="price-display">€<?= number_format($product->price ?? 0, 2) ?></span></p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php 
+                                            $price = $product->price ?? 0;
+                                            $cost = $product->cost ?? 0;
+                                            $margin = $price - $cost;
+                                            ?>
+                                            <p class="mb-1">Margen: <span id="margin-display">€<?= number_format($margin, 2) ?></span></p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <?php 
+                                            $marginPercent = ($cost > 0) ? ($margin / $cost) * 100 : 0;
+                                            ?>
+                                            <p class="mb-1">Margen %: <span id="margin-percent-display"><?= number_format($marginPercent, 2) ?>%</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <?php
+                                            $vatType = $product->vat_type ?? 21;
+                                            $vatAmount = $price * ($vatType / 100);
+                                            ?>
+                                            <p class="mb-1">IVA (<?= $vatType ?>%): <span id="vat-amount-display">€<?= number_format($vatAmount, 2) ?></span></p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="mb-1">Precio con IVA: <span id="price-with-vat-display">€<?= number_format($price + $vatAmount, 2) ?></span></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,6 +156,33 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
         crossorigin="anonymous"></script>
     <script>
+    // Modifica esta parte de la función updateCalculations:
+    function updateCalculations() {
+        const price = parseFloat(document.getElementById("price").value) || 0;
+        const cost = parseFloat(document.getElementById("cost").value) || 0;
+        const vatType = parseInt(document.getElementById("vat_type").value) || 21;
+        
+        // Calcular valores
+        const margin = price - cost;
+        // Evitar división por cero
+        const marginPercent = cost > 0 ? (margin / cost) * 100 : 0;
+        const vatAmount = price * (vatType / 100);
+        const priceWithVat = price + vatAmount;
+        
+        // Actualizar visualización
+        document.getElementById("price-display").textContent = `€${price.toFixed(2)}`;
+        document.getElementById("margin-display").textContent = `€${margin.toFixed(2)}`;
+        document.getElementById("margin-percent-display").textContent = `${marginPercent.toFixed(2)}%`;
+        document.getElementById("vat-amount-display").textContent = `€${vatAmount.toFixed(2)}`;
+        document.getElementById("price-with-vat-display").textContent = `€${priceWithVat.toFixed(2)}`;
+    }
+    
+    // Escuchar cambios en los campos relevantes para recalcular
+    document.getElementById("price").addEventListener("input", updateCalculations);
+    document.getElementById("cost").addEventListener("input", updateCalculations);
+    document.getElementById("vat_type").addEventListener("change", updateCalculations);
+    
+    // Manejar envío del formulario
     document.getElementById("editForm").addEventListener("submit", function(e) {
         e.preventDefault();
         
@@ -110,7 +195,9 @@
             'category_id': document.getElementById("category").value,
             'provider_id': document.getElementById("provider").value,
             'stock': document.getElementById("stock").value,
-            'price': document.getElementById("price").value
+            'price': document.getElementById("price").value,
+            'cost': document.getElementById("cost").value,
+            'vat_type': document.getElementById("vat_type").value
         };
         
         fetch(`${window.location.origin}/tiendamvc/api/updateproduct/${productId}`, {

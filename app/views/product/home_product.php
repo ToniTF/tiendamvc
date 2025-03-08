@@ -89,11 +89,27 @@
                     </div>
                     
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label for="stock" class="form-label">Stock</label>
                             <input type="number" min="0" class="form-control" id="stock" placeholder="Cantidad en stock" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label for="cost" class="form-label">Coste</label>
+                            <div class="input-group">
+                                <span class="input-group-text">€</span>
+                                <input type="number" min="0" step="0.01" class="form-control" id="cost" placeholder="Coste" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="vat_type" class="form-label">IVA</label>
+                            <select class="form-select" id="vat_type" required>
+                                <option value="0">0%</option>
+                                <option value="4">4%</option>
+                                <option value="10">10%</option>
+                                <option value="21" selected>21%</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label for="price" class="form-label">Precio</label>
                             <div class="input-group">
                                 <span class="input-group-text">€</span>
@@ -123,6 +139,8 @@
                                 <th scope="col">Categoría</th>
                                 <th scope="col">Proveedor</th>
                                 <th scope="col">Stock</th>
+                                <th scope="col">Coste</th> <!-- Nueva columna -->
+                                <th scope="col">IVA</th>    <!-- Nueva columna -->
                                 <th scope="col">Precio</th>
                                 <th scope="col">Acciones</th>
                             </tr>
